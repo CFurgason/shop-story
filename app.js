@@ -7,7 +7,7 @@ let chartMetric='revenue',filtered=[],scenario={};
 const rev=b=>D.revenueServices.includes(b.service);
 const monthName=m=>new Date(m+'-02T12:00:00').toLocaleDateString('en-US',{month:'short',year:'2-digit'});
 function chart(target,items,metric,tenure=false){
- const W=1080,H=280,L=65,R=15,T=25,B=45,innerW=W-L-R,innerH=H-T-B,max=Math.max(1,...items.map(x=>x[metric])),step=innerW/Math.max(1,items.length),bw=Math.min(48,step*.65),fmt=metric==='revenue'?money:num;
+ const W=1080,H=360,L=125,R=25,T=35,B=60,innerW=W-L-R,innerH=H-T-B,max=Math.max(1,...items.map(x=>x[metric])),step=innerW/Math.max(1,items.length),bw=Math.min(55,step*.65),fmt=metric==='revenue'?money:num;
  let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(metric)} by ${tenure?'program month':'calendar month'}"><title>${esc(metric)} over time</title>`;
  for(let i=0;i<=4;i++){let y=T+innerH*(1-i/4);svg+=`<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="#e4e8dc"/><text x="${L-9}" y="${y+4}" text-anchor="end" class="chart-label">${metric==='revenue'?money(max*i/4):num(max*i/4)}</text>`}
  items.forEach((d,i)=>{const h=d[metric]/max*innerH,x=L+step*i+(step-bw)/2,y=T+innerH-h;const label=tenure?d.name:monthName(d.name);svg+=`<rect class="chart-bar" tabindex="0" x="${x}" y="${y}" width="${bw}" height="${Math.max(.8,h)}" rx="3"><title>${esc(label)}: ${fmt(d[metric])}${tenure?' visits per observed shop-month; '+d.n+' shop-months':''}</title></rect>`;if(items.length<=10||i%2===0||i===items.length-1)svg+=`<text x="${x+bw/2}" y="${H-20}" text-anchor="middle" class="chart-label">${esc(label)}</text>`;if(tenure)svg+=`<text x="${x+bw/2}" y="${Math.max(12,y-7)}" text-anchor="middle" class="chart-value">${d[metric].toFixed(1)}</text>`});
