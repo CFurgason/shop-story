@@ -1,0 +1,21 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const els=new Map();function el(id){if(!els.has(id))els.set(id,{id,value:'',checked:false,innerHTML:'',textContent:'',handlers:{},addEventListener(k,v){this.handlers[k]=v},insertAdjacentHTML(_,v){this.innerHTML+=v},classList:{toggle(){}}});return els.get(id)}
+el('from').value='2025-03';el('to').value='2026-09';el('aro').value='500';el('margin').value='50';el('base').value='999';el('crm').value='699';
+const counts=[294,120,63,176,83,68,47,79,41],fees=[1475,600,625,875,400,325,225,400,200];counts.forEach((n,i)=>{el('p'+i).checked=i<8;el('c'+i).value=String(n);el('f'+i).value=String(fees[i])});
+const chartButtons=['revenue','visits','contacts'].map(chart=>({dataset:{chart},classList:{toggle(){}}}));
+const document={getElementById:el,querySelectorAll:s=>s==='[data-chart]'?chartButtons:[],createElement:()=>({click(){}})};
+const ctx={window:{print(){}},document,console,Intl,Date,Map,Math,Number,String,Object,Blob,URL,setTimeout};vm.createContext(ctx);
+vm.runInContext(fs.readFileSync('dashboard/dist/data.js','utf8'),ctx);vm.runInContext(fs.readFileSync('dashboard/dist/app.js','utf8'),ctx);
+const d=ctx.window.IMPACT_DATA, sums=k=>d.buckets.reduce((n,b)=>n+b[k],0);
+assert.equal(sums('contacts'),d.audit.contacts);assert.equal(sums('visits'),d.audit.qualifiedVisits);assert.equal(sums('appointments'),d.audit.uniqueAppointments);assert.equal(sums('tasks'),d.audit.uniqueRevenueTasks);assert.ok(Math.abs(sums('revenue')-d.audit.verifiedRevenue)<.01);
+assert.equal(d.audit.uniqueROs,d.audit.qualifiedVisits+d.audit.relationshipOnlyROs+d.audit.missingOpenDate+d.audit.roAfterCutoff+d.audit.roOutsideWindow);
+assert.equal(d.audit.unpricedQualifiedROs,d.audit.notPostedByCutoff+d.audit.unresolvedIndividualAmounts);
+assert.ok(el('metrics').innerHTML.includes('29,643'));assert.equal(el('totalCost').textContent,'$6,623');assert.ok(el('chart').innerHTML.includes('<svg'));
+el('from').value='2026-09';el('to').value='2026-09';vm.runInContext('update()',ctx);assert.ok(el('metrics').innerHTML.includes('Mature cohort conversion</span><strong>—'));
+el('from').value='2026-09';el('to').value='2025-03';vm.runInContext('update()',ctx);assert.ok(el('filterError').textContent.includes('start month'));
+el('reset').onclick();assert.ok(el('metrics').innerHTML.includes('29,643'));
+el('shop').value=d.shops[0];vm.runInContext('update()',ctx);assert.ok(el('shopRows').innerHTML.includes(d.shops[0].replaceAll("'",'&#39;')));
+for(let i=0;i<9;i++)el('p'+i).checked=false;vm.runInContext('calculate()',ctx);assert.equal(el('planVisits').textContent,'0.0');assert.equal(el('totalCost').textContent,'$1,698');
+el('margin').value='0';vm.runInContext('calculate()',ctx);assert.equal(el('breakEven').textContent,'—');
+console.log('PASS: full-workbook reconciliation; initial rendering; shop/date filters; recent-cohort maturity; scenario fee, service-selection, and zero-margin behavior.');
+console.log(JSON.stringify(d.audit));
