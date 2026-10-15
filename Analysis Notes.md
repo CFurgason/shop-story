@@ -1,6 +1,6 @@
 # Shop Story — outreach impact report
 
-Open **Shop Story Dashboard.html** in a browser. It is a standalone dashboard: no installation, Excel connection, or server is required. Shop and month filters update the results. The cost calculator is an illustrative editable plan. The print button uses the browser's print dialog, where you can save a PDF. Export buttons download the selected service results and the cost scenario.
+Open **Shop Story Dashboard - Complete.html** in a browser. It is a standalone dashboard: no installation, Excel connection, or server is required. The HTML contains the full-workbook numbers, tables, charts and initial cost scenario before any JavaScript runs, so file previews and script-blocked browsers can show the report. Controls enable after successful interactive initialization in a browser. Shop and month filters update the results. The cost calculator is an illustrative editable plan. The print button uses the browser's print dialog, where you can save a PDF. Export buttons download the selected service results and the cost scenario. **Shop Story Dashboard.html** contains the same corrected report.
 
 ## Observed results
 
