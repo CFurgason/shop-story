@@ -1,0 +1,27 @@
+SHOP STORY — CORRECTED GITHUB PAGES FILE
+
+Live site: https://cfurgason.github.io/shop-story/
+Repository: https://github.com/cfurgason/shop-story
+
+The live site was checked on October 15, 2026. Its data.js URL returned 404.
+The JavaScript application therefore could not read the workbook data, leaving the report empty.
+
+Replace the repository's currently published index.html with the index.html in this folder.
+Keep the name exactly index.html. Use the same branch/folder already used by GitHub Pages.
+The replacement contains the complete data, styles, script, and populated report.
+There is no dependency on separate data.js, style.css, or app.js files.
+It is not necessary to upload the workbook, RO ledger, or source code.
+
+If uploading through GitHub, open the repository's published folder, choose Add file > Upload files,
+upload this index.html, and commit the replacement to the existing published branch.
+Wait for the Pages deployment to complete, then reload the site.
+
+Verification:
+- Revenue displayed: $19,078,871 (rounded).
+- Qualifying visits displayed: 29,643.
+- Observed conversion: 14.5%.
+- Monthly chart: 19 bars.
+- Service table, shop comparison, and starter cost plan contain populated rows.
+- Page source contains report-version: 2026-10-15-data-fix.
+
+This file prepares the deployment. It does not indicate that GitHub has been updated.
