@@ -1,6 +1,6 @@
 # Shop Story — outreach impact report
 
-Open **Shop Story Dashboard - Complete.html** in a browser. It is a standalone dashboard: no installation, Excel connection, or server is required. The HTML contains the full-workbook numbers, tables, charts and initial cost scenario before any JavaScript runs, so file previews and script-blocked browsers can show the report. Controls enable after successful interactive initialization in a browser. Shop and month filters update the results. The cost calculator is an illustrative editable plan. The print button uses the browser's print dialog, where you can save a PDF. Export buttons download the selected service results and the cost scenario. **Shop Story Dashboard.html** contains the same corrected report.
+Open **index.html** in a browser, or publish that file to GitHub Pages. This is the single dashboard deliverable. No installation, Excel connection, or server is required. The HTML contains the full-workbook numbers, tables, charts and initial cost scenario before any JavaScript runs, so file previews and script-blocked browsers can show the report. Controls enable after successful interactive initialization in a browser. Shop and month filters update the results. The cost calculator is an illustrative editable plan. The print button uses the browser's print dialog, where you can save a PDF. Export buttons download the selected service results and the cost scenario.
 
 ## Observed results
 
@@ -52,6 +52,8 @@ Observed conversion = converted unique revenue tasks / all unique revenue tasks 
 
 The tenure chart joins exact shop names to the Shop active dates sheet. Program month 1 is the calendar month of the supplied start date. The chart averages visits over shop-months with observed contact activity. It includes partial months, has unequal shop composition, and does not establish a predictive startup ramp. The active-date sheet lists more shops than the contact export; only the 14 observed shops contribute results.
 
+Car-count comparison policy (October 23, 2026): Exclude Hughes Motors Auto Repair from comparisons based on car count. The user confirmed that the shop's processes make accurate reporting difficult and approved this exclusion. Its reported activity may remain in other views. The existing tenure chart still uses the original 14-shop outreach data; the newer "past numbers" sheet and its column G car counts have not yet been integrated into that chart. This note records the exclusion policy without representing that a car-count comparison is already implemented.
+
 The workbook contains outbound contact records. It does not independently identify texts, a no-contact control group, customer acquisition cost, or incremental revenue. No text-specific results, causal uplift, testimonial, or retention recovery claim is invented.
 
 ## Cost calculator
@@ -64,7 +66,7 @@ Modeled revenue = modeled visits × entered average repair order. Revenue multip
 
 ## Files and verification
 
-- **Shop Story Dashboard.html** — standalone interactive and printable dashboard.
+- **index.html** — standalone interactive and printable dashboard, ready for GitHub Pages.
 - **Shop Story Monthly Data.csv** — aggregated shop/service/month data, without customer identifiers or phone numbers.
 - **Shop Story RO Ledger.csv** — one row per unique shop + RO, with qualifying contact, credited service/task, counted dollars, and inclusion/exclusion reason.
 - **Shop Story Reconciliation.json** — workbook-wide audit totals.
