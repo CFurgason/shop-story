@@ -29,6 +29,8 @@ const document={getElementById:element,querySelectorAll(selector){if(selector===
 const context={window:{print(){}},document,console,Intl,Date,Map,Math,Number,String,Object,Blob,URL,setTimeout};
 vm.createContext(context);
 vm.runInContext(fs.readFileSync(path.join(dist,'data.js'),'utf8'),context,{filename:'data.js'});
+vm.runInContext(fs.readFileSync(path.join(dist,'size-model.js'),'utf8'),context,{filename:'size-model.js'});
+vm.runInContext(fs.readFileSync(path.join(dist,'size-data.js'),'utf8'),context,{filename:'size-data.js'});
 vm.runInContext(fs.readFileSync(path.join(dist,'app.js'),'utf8'),context,{filename:'app.js'});
 assert.ok(element('metrics').innerHTML.includes('29,643'));
 assert.equal(element('totalCost').textContent,'$6,623');

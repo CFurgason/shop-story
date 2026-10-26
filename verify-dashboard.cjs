@@ -5,7 +5,7 @@ const counts=[294,120,63,176,83,68,47,79,41],fees=[1475,600,625,875,400,325,225,
 const chartButtons=['revenue','visits','contacts'].map(chart=>({dataset:{chart},classList:{toggle(){}}}));
 const document={getElementById:el,querySelectorAll:s=>s==='[data-chart]'?chartButtons:[],createElement:()=>({click(){}})};
 const ctx={window:{print(){}},document,console,Intl,Date,Map,Math,Number,String,Object,Blob,URL,setTimeout};vm.createContext(ctx);
-vm.runInContext(fs.readFileSync('dashboard/dist/data.js','utf8'),ctx);vm.runInContext(fs.readFileSync('dashboard/dist/app.js','utf8'),ctx);
+for(const file of ['data.js','size-model.js','size-data.js','app.js'])vm.runInContext(fs.readFileSync('dashboard/dist/'+file,'utf8'),ctx);
 const d=ctx.window.IMPACT_DATA, sums=k=>d.buckets.reduce((n,b)=>n+b[k],0);
 assert.equal(sums('contacts'),d.audit.contacts);assert.equal(sums('visits'),d.audit.qualifiedVisits);assert.equal(sums('appointments'),d.audit.uniqueAppointments);assert.equal(sums('tasks'),d.audit.uniqueRevenueTasks);assert.ok(Math.abs(sums('revenue')-d.audit.verifiedRevenue)<.01);
 assert.equal(d.audit.uniqueROs,d.audit.qualifiedVisits+d.audit.relationshipOnlyROs+d.audit.missingOpenDate+d.audit.roAfterCutoff+d.audit.roOutsideWindow);
@@ -19,7 +19,7 @@ for(let i=0;i<9;i++)el('p'+i).checked=false;vm.runInContext('calculate()',ctx);a
 el('margin').value='0';vm.runInContext('calculate()',ctx);assert.equal(el('breakEven').textContent,'—');
 console.log('PASS: full-workbook reconciliation; initial rendering; shop/date filters; recent-cohort maturity; scenario fee, service-selection, and zero-margin behavior.');
 console.log(JSON.stringify(d.audit));
-const html=fs.readFileSync('Shop Story Dashboard.html','utf8');
+const html=fs.readFileSync('index.html','utf8');
 const snapshot=html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'');
 assert.ok(snapshot.includes('id="heroRevenue">$19,078,871</strong>'),'Revenue must be visible without script execution');
 assert.ok(snapshot.includes('id="heroVisits">29,643</b>'),'Visits must be visible without script execution');

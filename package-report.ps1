@@ -1,12 +1,20 @@
 $ErrorActionPreference='Stop'
+& (Join-Path $PSScriptRoot 'build-size-data.ps1')
 $runtime=Get-Command node -ErrorAction SilentlyContinue
 if($runtime) {
+ & $runtime.Source (Join-Path $PSScriptRoot 'render-size-pages.cjs') | Out-Host
+ if($LASTEXITCODE -ne 0){throw 'Shop-size page rendering failed.'}
  & $runtime.Source (Join-Path $PSScriptRoot 'render-report.cjs') | Out-Host
 } else {
  $electron=Join-Path $env:LOCALAPPDATA 'Programs/Microsoft VS Code/Code.exe'
  if(-not (Test-Path -LiteralPath $electron)){throw 'Node.js is required to generate the populated report.'}
  $priorElectronMode=$env:ELECTRON_RUN_AS_NODE
- try { $env:ELECTRON_RUN_AS_NODE='1'; & $electron (Join-Path $PSScriptRoot 'render-report.cjs') | Out-Host }
+ try {
+  $env:ELECTRON_RUN_AS_NODE='1'
+  & $electron (Join-Path $PSScriptRoot 'render-size-pages.cjs') | Out-Host
+  if($LASTEXITCODE -ne 0){throw 'Shop-size page rendering failed.'}
+  & $electron (Join-Path $PSScriptRoot 'render-report.cjs') | Out-Host
+ }
  finally { $env:ELECTRON_RUN_AS_NODE=$priorElectronMode }
 }
 if($LASTEXITCODE -ne 0){throw 'Report rendering failed; previous standalone file was preserved.'}
@@ -16,6 +24,10 @@ $css=[IO.File]::ReadAllText((Join-Path $dist 'style.css'))
 $data=[IO.File]::ReadAllText((Join-Path $dist 'data.js'))
 $js=[IO.File]::ReadAllText((Join-Path $dist 'app.js'))
 $html=$html.Replace('<link rel="stylesheet" href="style.css">',('<style>'+$css+'</style>')).Replace('<script src="data.js"></script>',('<script>'+$data+'</script>')).Replace('<script src="app.js"></script>',('<script>'+$js+'</script>'))
+$html=$html.Replace('<link rel="stylesheet" href="size-style.css">',('<style>'+[IO.File]::ReadAllText((Join-Path $dist 'size-style.css'))+'</style>'))
+foreach($asset in @('size-model.js','size-data.js')) {
+ $html=$html.Replace(('<script src="'+$asset+'"></script>'),('<script>'+[IO.File]::ReadAllText((Join-Path $dist $asset))+'</script>'))
+}
 [IO.File]::WriteAllText((Join-Path $PSScriptRoot 'index.html'),$html,[Text.UTF8Encoding]::new($false))
 $json=$data.Substring('window.IMPACT_DATA='.Length).TrimEnd(';') | ConvertFrom-Json
 $json.buckets | Export-Csv -LiteralPath (Join-Path $PSScriptRoot 'Shop Story Monthly Data.csv') -NoTypeInformation -Encoding UTF8

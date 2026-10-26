@@ -35,10 +35,7 @@ function drawMain(){
  const t=sum(rows)[chartMetric];$('chartTotal').textContent=(chartMetric==='revenue'?money(t):num(t))+' in the selected period';
 }
 function drawTenure(shop,from,to){
- const months=new Map();for(const b of D.buckets){if((shop&&b.shop!==shop)||b.month<from||b.month>to)continue;const key=b.shop+'|'+b.month;const prev=months.get(key)||{shop:b.shop,month:b.month,contacts:0,visits:0};prev.contacts+=b.contacts;prev.visits+=b.visits;months.set(key,prev)}
- const bands=[{name:'Month 1',min:1,max:1},{name:'Month 2–3',min:2,max:3},{name:'Month 4–6',min:4,max:6},{name:'Month 7–12',min:7,max:12},{name:'Month 13–24',min:13,max:24},{name:'Month 25+',min:25,max:999}].map(x=>({...x,n:0,total:0,visits:0}));
- for(const m of months.values()){if(!m.contacts)continue;const a=D.active.find(a=>a.shop===m.shop);if(!a)continue;const [y,n]=m.month.split('-').map(Number),[sy,sn]=a.start.split('-').map(Number),ten=(y-sy)*12+n-sn+1;const band=bands.find(b=>ten>=b.min&&ten<=b.max);if(band){band.n++;band.total+=m.visits}}
- const observed=bands.filter(b=>b.n).map(b=>({...b,visits:b.total/b.n}));chart('tenure',observed,'visits',true);
+ $('tenure').innerHTML=window.SizeComparison.overview(window.SIZE_DATA);
 }
 const plan=[['Next Day Satisfaction',294,1475],['Oil Change Reminder',120,600],['Pre-Book Oil Change',63,625],['Service Overdue',176,875],['Warranty Inspection',83,400],['State Inspection',68,325],['BG Services',47,225],['Retention Re-Engage',79,400],['Reservation No Show',41,200]];
 const historical=Object.fromEntries(group(D.buckets.filter(rev),'service').map(s=>[s.name,s]));
