@@ -17,7 +17,8 @@
    return {name,rows,start:rows[0].month,carRows,typical,size:reason?null:typical<200?'small':typical<400?'medium':'large',reason};
   }).sort((a,b)=>a.name.localeCompare(b.name));
  }
- function cohort(data,size,horizon=12){
+ function cohort(data,size){
+  const horizon=6;
   const candidates=shops(data).filter(s=>s.size===size),included=[],excluded=[];
   for(const s of candidates){const byMonth=new Map(s.rows.map(r=>[r.month,r])),series=[];let missing=null;
    for(let i=0;i<horizon;i++){const key=month(index(s.start)+i),row=byMonth.get(key);if(key>data.cutoff||!row||!validVisits(row)){missing=key;break}series.push(row.visits)}
@@ -34,8 +35,9 @@
   for(const [i,p] of points.entries()){const h=ih*p.average/max,x=L+step*i+step*.22,y=T+ih-h;svg+='<rect class="chart-bar" tabindex="0" x="'+x+'" y="'+y+'" width="'+step*.56+'" height="'+h+'" rx="3"><title>Program month '+p.month+': '+number(p.average)+' average BDC visits; '+p.n+' shops; range '+p.min+'–'+p.max+'</title></rect><text class="chart-label" x="'+(x+step*.28)+'" y="'+(H-20)+'" text-anchor="middle">M'+p.month+'</text><text class="chart-value" x="'+(x+step*.28)+'" y="'+(y-8)+'" text-anchor="middle">'+number(p.average)+'</text>'}
   return svg+'</svg>';
  }
- function overview(data){return '<div class="size-cards">'+groups.map(g=>{const c=cohort(data,g.id,12);return '<a class="size-card" href="'+g.id+'.html"><span class="eyebrow">'+g.name.toUpperCase()+' SHOPS</span><h3>'+g.range+'</h3><p>'+c.included.length+' shops with complete first-year visit records</p><span class="button">Explore '+g.name.toLowerCase()+' shops ↗</span></a>'}).join('')+'</div>'}
- function render(data,size,horizon=12){
+ function overview(data){return '<div class="size-cards">'+groups.map(g=>{const c=cohort(data,g.id);return '<a class="size-card" href="'+g.id+'.html"><span class="eyebrow">'+g.name.toUpperCase()+' SHOPS</span><h3>'+g.range+'</h3><p>'+c.included.length+' shops with complete first-six-month visit records</p><span class="button">Explore '+g.name.toLowerCase()+' shops ↗</span></a>'}).join('')+'</div>'}
+ function render(data,size){
+  const horizon=6;
   const c=cohort(data,size,horizon),all=shops(data),g=groups.find(g=>g.id===size),total=c.included.reduce((a,s)=>a+s.series.reduce((x,y)=>x+y,0),0);
   const excluded=[...c.excluded,...all.filter(s=>s.reason)];
   return '<div class="metrics size-metrics"><article class="metric"><span>Comparable shops</span><strong>'+c.included.length+'</strong><small>Same shops at every program month</small></article><article class="metric"><span>Complete shop-months</span><strong>'+number(c.included.length*horizon)+'</strong><small>First '+horizon+' months from each launch</small></article><article class="metric"><span>Reported BDC visits</span><strong>'+number(total)+'</strong><small>Across the included shops and months</small></article></div>'+
