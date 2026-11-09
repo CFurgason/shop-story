@@ -29,7 +29,7 @@
  }
  function graph(points){
   if(!points.length)return '<p class="empty-state">No shops have complete records for this comparison. Choose a shorter follow-up period.</p>';
-  const W=1050,H=340,L=65,R=20,T=35,B=50,max=Math.max(1,...points.map(p=>p.average)),iw=W-L-R,ih=H-T-B,step=iw/points.length;
+  const W=840,H=280,L=65,R=20,T=35,B=50,max=Math.max(1,...points.map(p=>p.average)),iw=W-L-R,ih=H-T-B,step=iw/points.length;
   let svg='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Average reported BDC visits by program month"><title>Average reported BDC visits per shop, with the same shops in every month</title>';
   for(let i=0;i<=4;i++){const y=T+ih*(1-i/4);svg+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" stroke="#dce1d7"/><text class="chart-label" x="'+(L-10)+'" y="'+(y+4)+'" text-anchor="end">'+number(max*i/4)+'</text>'}
   for(const [i,p] of points.entries()){const h=ih*p.average/max,x=L+step*i+step*.22,y=T+ih-h;svg+='<rect class="chart-bar" tabindex="0" x="'+x+'" y="'+y+'" width="'+step*.56+'" height="'+h+'" rx="3"><title>Program month '+p.month+': '+number(p.average)+' average BDC visits; '+p.n+' shops; range '+p.min+'–'+p.max+'</title></rect><text class="chart-label" x="'+(x+step*.28)+'" y="'+(H-20)+'" text-anchor="middle">M'+p.month+'</text><text class="chart-value" x="'+(x+step*.28)+'" y="'+(y-8)+'" text-anchor="middle">'+number(p.average)+'</text>'}

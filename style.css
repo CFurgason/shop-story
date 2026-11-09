@@ -7,13 +7,16 @@ button:disabled,input:disabled,select:disabled{cursor:default;opacity:.8}
 /* Readable at normal browser zoom; dense tables scroll instead of shrinking. */
 @media screen {
  body{font-size:18px;line-height:1.6}
- header,main{max-width:1680px;padding-left:clamp(20px,3vw,48px);padding-right:clamp(20px,3vw,48px)}
+ header,main{width:100%;max-width:1280px;padding-left:clamp(18px,3vw,40px);padding-right:clamp(18px,3vw,40px)}
+ main{min-width:0}
+ section{padding-top:32px;padding-bottom:32px}
+ .hero{padding-top:40px;padding-bottom:40px;gap:32px}
  header{flex-wrap:wrap;gap:20px}
  .brand,nav,.button,button{font-size:17px}
  .brand small,.eyebrow,.source,.badge{font-size:14px}
  .eyebrow{letter-spacing:1.5px}
- h2{font-size:38px}h3{font-size:25px}
- .intro{font-size:21px;max-width:600px}
+ h2{font-size:32px;line-height:1.25}h3{font-size:23px;line-height:1.35}
+ .intro{font-size:20px;max-width:600px}
  .hero-proof>p:not(.eyebrow){font-size:20px}
  .hero-proof small{font-size:16px}
  .hero-proof>div{font-size:19px}
@@ -22,15 +25,18 @@ button:disabled,input:disabled,select:disabled{cursor:default;opacity:.8}
  input,select{font-size:18px;min-height:48px;padding:11px 13px}
  .filters select{width:340px}
  .metrics{gap:18px}
- .metric{padding:26px}
+ .metric{padding:22px;min-width:0}
  .metric>span{font-size:17px;line-height:1.5}
- .metric strong{font-size:40px;line-height:1.25;margin:14px 0}
+ .metric strong{font-size:34px;line-height:1.25;margin:12px 0}
  .metric small{font-size:16px;line-height:1.6}
  .fine,.evidence-note,.chart-head p,.chart-foot{font-size:16px;line-height:1.7}
  .segments button{font-size:16px;padding:10px 16px;min-height:44px}
  .chart-head{flex-wrap:wrap}
- .chart-label{font-size:18px}.chart-value{font-size:18px}
- #chart svg,#tenure svg{min-width:1000px}
+ .chart-label{font-size:20px;fill:#42564b;font-weight:500}.chart-value{font-size:21px;font-weight:700}
+ #chart svg{width:100%;min-width:760px;max-width:960px;margin:0 auto}
+ #chart{margin:18px 0 12px;overflow-x:auto}
+ #tenure{min-width:0}
+ .chart-panel{padding:24px;margin:20px 0}
  .chart-foot{flex-wrap:wrap;gap:12px}
  .dark p:not(.eyebrow){font-size:18px}
  .dark .fine{font-size:16px!important}
@@ -65,7 +71,7 @@ button:disabled,input:disabled,select:disabled{cursor:default;opacity:.8}
  .audit-grid strong{font-size:30px}
  .audit-grid span,footer p,footer a,footer>small{font-size:16px}
 }
-@media screen and (max-width:1390px){
+@media screen and (max-width:1100px){
  .plan-layout{grid-template-columns:1fr}
  .plan-summary{max-width:none}
  .calculator-inputs{grid-template-columns:repeat(4,minmax(0,1fr))}
