@@ -23,6 +23,13 @@ vm.runInNewContext(fs.readFileSync('dashboard/dist/growth-app.js','utf8'),contex
 assert.match(nodes.get('results').innerHTML,/Average growth/);nodes.get('cars').valueAsNumber=99999;nodes.get('cars').listener();assert.match(nodes.get('results').innerHTML,/No comparable shops/);
 nodes.get('cars').valueAsNumber=NaN;nodes.get('cars').listener();assert.match(nodes.get('results').innerHTML,/positive whole-number/);
 nodes.get('cars').valueAsNumber=300;nodes.get('horizon').value='3';nodes.get('horizon').listener();assert.match(nodes.get('tables').innerHTML,/Month 3/);
-for(const page of ['index','small','medium','large'])assert.match(fs.readFileSync(page+'.html','utf8'),/href="growth.html"/);
+for(const directory of ['','dashboard/dist/'])for(const page of ['index','small','medium','large']){
+ const html=fs.readFileSync(directory+page+'.html','utf8');
+ assert.ok(!html.includes('id="car-count-growth"'),'Embedded growth panel removed');
+ assert.ok(!html.includes('<iframe'),'No nested dashboard frame');
+ if(page==='index')assert.ok(!html.includes('href="growth.html"'),'No growth calculator on front page');
+ else assert.match(html,/<a class="growth-nav" href="growth.html">/);
+ assert.match(html,/max-width:1600px/);
+}
 console.log('PASS: source reconciliation, equal-weight growth, missing months, empty/invalid inputs, interactive controls, and dashboard links.');
 console.log('Example: 300 cars, ±25%, 6 months:',JSON.stringify(m.compare(d,300,25,6),['average','median','projection']));

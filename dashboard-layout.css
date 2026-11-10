@@ -1,0 +1,29 @@
+/* Wider desktop workspace; preserve the mobile layout. */
+@media screen and (min-width:1001px){
+ header,main{max-width:1600px;padding-left:32px;padding-right:32px}
+ body{font-size:16px;line-height:1.5}
+ header{gap:18px;padding-top:20px;padding-bottom:20px}
+ header nav{display:flex;gap:18px;flex-wrap:wrap}
+ header nav a,.brand,.button,button{font-size:15px}
+ section{padding-top:24px;padding-bottom:24px}
+ .hero{padding-top:32px;padding-bottom:32px;gap:36px}
+ .hero-proof{padding:26px}
+ .intro{font-size:18px;max-width:720px}
+ .metrics{gap:16px}
+ .metric{padding:20px}
+ .metric strong{font-size:32px}
+ .chart-panel,.panel{padding:22px}
+ table{font-size:15px;min-width:900px}
+ th{font-size:14px}
+ th,td{padding:12px}
+ .method-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+ .method-grid h3{font-size:20px}
+ .method-grid p{font-size:15px}
+ .plan-layout{grid-template-columns:minmax(0,1.7fr) minmax(340px,1fr);gap:24px}
+ .two-col{grid-template-columns:1fr 1fr}
+ .plan-table{min-width:660px}
+ .size-hero{padding-top:36px;padding-bottom:32px}
+}
+@media screen and (max-width:1000px){
+ header nav .growth-nav{display:inline-block}
+}
