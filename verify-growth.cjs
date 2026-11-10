@@ -29,7 +29,15 @@ for(const directory of ['','dashboard/dist/'])for(const page of ['index','small'
  assert.ok(!html.includes('<iframe'),'No nested dashboard frame');
  if(page==='index')assert.ok(!html.includes('href="growth.html"'),'No growth calculator on front page');
  else assert.match(html,/<a class="growth-nav" href="growth.html">/);
- assert.match(html,/max-width:1600px/);
+ assert.match(html,/max-width:1792px/);
 }
 console.log('PASS: source reconciliation, equal-weight growth, missing months, empty/invalid inputs, interactive controls, and dashboard links.');
+const adjust=require('./dashboard-type.cjs');
+for(const page of ['index','small','medium','large','growth']){
+ const html=fs.readFileSync(page+'.html','utf8');
+ assert.equal(adjust(html),html,'Repeated builds preserve the 3px increase');
+ assert.ok(html.includes('data-text-increase="3"'));
+}
+assert.match(fs.readFileSync('small.html','utf8'),/body\{font-size:19px;line-height:1.5\}/);
+console.log('PASS: text enlarged by 3px, desktop width increased by 192px, repeat builds preserve sizes.');
 console.log('Example: 300 cars, ±25%, 6 months:',JSON.stringify(m.compare(d,300,25,6),['average','median','projection']));

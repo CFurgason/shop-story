@@ -1,6 +1,6 @@
 /* Wider desktop workspace; preserve the mobile layout. */
 @media screen and (min-width:1001px){
- header,main{max-width:1600px;padding-left:32px;padding-right:32px}
+ header,main{max-width:1792px;padding-left:32px;padding-right:32px}
  body{font-size:16px;line-height:1.5}
  header{gap:18px;padding-top:20px;padding-bottom:20px}
  header nav{display:flex;gap:18px;flex-wrap:wrap}
