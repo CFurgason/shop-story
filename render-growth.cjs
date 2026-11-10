@@ -18,3 +18,4 @@ for(const directory of [root,dist])for(const page of ['index.html','small.html',
  fs.writeFileSync(target,increaseText(source));
 }
 console.log('Front page restored; compact growth links on shop dashboards; wider dashboard layout saved.');
+require('./anonymize-dashboard.cjs');
