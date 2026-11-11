@@ -68,6 +68,31 @@ function compact(html){
  html=html.replace(/<section><h2>How the comparison works<\/h2>([\s\S]*?)<\/section>/,(_all,content)=>'<section><p class="fine">Observed changes may reflect seasonality and other business changes. Results are not guaranteed.</p><details><summary>How the comparison works</summary>'+content+'</details></section>');
  html=html.replace(/<p>Better follow-up starts with a clear view of the opportunity\.<\/p>/,'');
  html=html.replace(/<!--REPORT_SCRIPT_(\d+)-->/g,(_all,i)=>scripts[Number(i)]);
+ // Apply the same labels to saved markup, runtime rendering, and downloads.
+ const labels=[
+  ['Verified attributed revenue','Verified outreach-linked revenue'],
+  ['in verified, attributed revenue','in verified outreach-linked revenue'],
+  ['Qualifying service visits','Outreach-linked service visits'],
+  ['Verified revenue','Verified linked revenue'],
+  ['verified revenue','verified linked revenue'],
+  ['Visits as shops stay in the program','Observed BDC visits through Month 6'],
+  ['What did similar shops grow?','How did similar shops’ car counts change?'],
+  ['Average growth','Average observed growth'],
+  ['Median growth','Median observed growth'],
+  ['Build a plan. See the economics.','What would your plan need to deliver?'],
+  ['Choose your services and adjust the monthly budget. Your estimate updates instantly.','Set your budget, repair order value, and margin to see the break-even visits.'],
+  ['visits to cover your monthly cost at your ARO and margin','additional visits needed to cover monthly cost at your ARO and margin'],
+  ['Revenue / total cost','Modeled revenue / plan cost'],
+  ['Gross profit after plan cost','Modeled gross profit after plan cost'],
+  ['Results, six-month visits, and a plan for your shop size.','See outreach-linked results, observed visit trends, and break-even costs.'],
+  ['Choose a dashboard to explore results, services, six-month growth, and the economics of your plan. Each dashboard uses only its size group’s available evidence.','Compare observed results for your shop size, then explore the cost and break-even visits.'],
+  ['These are bookings, not verified arrivals.','Bookings are separate from completed visits.'],
+  ['Detailed shop results unavailable. See the historical shop list below.','Detailed shop results unavailable. See the historical visit graph below.']
+ ];
+ for(const [before,after] of labels)html=html.split(before).join(after);
+ html=html.replace(/<p class="fine">Historical yields are illustrative, not guaranteed\.[\s\S]*?<\/p>/,'<p class="fine">Break-even requires additional visits caused by the program. Linked visits are not proof of added visits. Projections use historical yields and are illustrative.</p>');
+ html=html.replace(/<p class="intro">Choose a dashboard to explore results,[\s\S]*?<\/p>/,'<p class="intro">Compare observed results for your shop size, then explore the cost and break-even visits.</p>');
+ html=html.replace(/<small>March 2025[\s\S]*?Attribution shows association; it does not establish incremental lift\.<\/small>/,'<small>Recorded results associated with outreach; added revenue is not established.</small>');
  return html;
 }
 module.exports=compact;
