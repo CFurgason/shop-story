@@ -19,3 +19,8 @@ for(const directory of [root,dist])for(const page of ['index.html','small.html',
 }
 console.log('Front page restored; compact growth links on shop dashboards; wider dashboard layout saved.');
 require('./anonymize-dashboard.cjs');
+const compact=require('./compact-dashboard.cjs');
+for(const directory of [root,dist])for(const page of ['index','small','medium','large','growth']){
+ const file=path.join(directory,page+'.html');
+ fs.writeFileSync(file,compact(fs.readFileSync(file,'utf8')));
+}
